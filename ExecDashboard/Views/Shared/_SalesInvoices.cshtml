@@ -1,0 +1,35 @@
+﻿@model ExecDashboard.Models.LineGraphModel
+
+<div id="siChartWrapper">
+    <br />
+    <canvas id="canvasSI" height="300"></canvas>
+</div>
+
+<script src="~/Scripts/ChartNew.js"></script>
+<script>
+
+    var userChartData = JSON.parse('@Html.Raw(Json.Encode(Model))');
+
+    $(function () {
+        buildGraph();
+    });
+
+    function buildGraph() {
+        var _width = $('#salesInvoiceGraphContainer').width();
+        $('#canvasSI').attr('width', _width);
+
+        var ctx = document.getElementById("canvasSI").getContext("2d");
+	    var chart = new Chart(ctx).Bar(userChartData, {
+		    scaleOverride: true,
+		    scaleSteps: 4,
+            scaleStepWidth: parseInt('@ViewBag.Max') / 4,
+	        scaleStartValue: 0,
+	        pointDot: false,
+	        showTooltips: false,
+	        scaleXGridLinesStep: 0
+        });
+    };
+</script>
+
+
+

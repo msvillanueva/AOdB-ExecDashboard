@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "Dashboard | Analytic";
+}
+
+<br />
+<div class="panel-body dash-controls">
+    <div class="pull-left col-lg-6">
+        <btn class="dash-rnd-btn btn btn-primary date-btn" data-from="@(DateTime.Now.AddDays(-7).ToShortDateString())" data-to="@(DateTime.Now.ToShortDateString())">Week</btn>
+        <btn class="dash-rnd-btn btn btn-info date-btn" data-from="@(DateTime.Now.AddMonths(-1).ToShortDateString())" data-to="@(DateTime.Now.ToShortDateString())">Month</btn>
+        <btn class="dash-rnd-btn btn btn-success date-btn" data-from="@(DateTime.Now.AddYears(-1).ToShortDateString())" data-to="@(DateTime.Now.ToShortDateString())">Year</btn>
+        <btn class="dash-rnd-btn btn btn-warning" id="setDate">Set date</btn>
+    </div>
+    <div class="">
+        <div class="form-group pull-right mt20 mr10">
+            <div label-for="dateTo">Date to:</div>
+            <div class='input-group date' id='dateTo'>
+                <input type='text' class="form-control" id="dateToVal" />
+                <span class="input-group-addon datepicker">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="form-group pull-right mt20 mr10">
+            <div label-for="dateTo">Date from:</div>
+            <div class='input-group date' id='dateFrom'>
+                <input type='text' class="form-control" id="dateFromVal" />
+                <span class="input-group-addon datepicker">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dash">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title lh35">
+                        Active Users
+                    </span>
+                </div>
+                <div class="panel-body quadrant-panel-body" id="u-loader">
+                    <div id="activeUserGraphContainer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title lh35">
+                        Acquired projects
+                    </span>
+                </div>
+                <div class="panel-body quadrant-panel-body" id="p-loader">
+                    <div id="projectsGraphContainer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title lh35">
+                        Vouchers total amount per project
+                    </span>
+                </div>
+                <div class="panel-body quadrant-panel-body" id="v-loader">
+                    <div id="vouchersGraphContainer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title lh35">
+                        Sales invoice total amount per project
+                    </span>
+                </div>
+                <div class="panel-body quadrant-panel-body" id="s-loader">
+                    <div id="salesInvoiceGraphContainer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var graphParameters = {};
+
+    $(function () {
+        setDateControls();
+
+        $('.date-btn').click(function () {
+            var dateFrom = $(this).data('from');
+            var dateTo = $(this).data('to');
+            var pckrFrom = $('#dateFrom').data("DateTimePicker");
+            var pckrTo = $('#dateTo').data("DateTimePicker");
+
+            pckrFrom.date(new Date(dateFrom));
+            pckrTo.date(new Date(dateTo));
+
+            buildGraphs();
+        });
+
+        $('#setDate').click(function () {
+            buildGraphs();
+        });
+    });
+
+    function setDateControls() {
+        var opt = {
+            format: 'MM/DD/YYYY'
+        }
+        $('#dateFrom').datetimepicker(opt);
+        $('#dateTo').datetimepicker(opt);
+
+        var pckrFrom = $('#dateFrom').data("DateTimePicker");
+        var pckrTo = $('#dateTo').data("DateTimePicker");
+
+        pckrFrom.date(new Date('@DateTime.Now.AddDays(-7).ToShortDateString()'));
+        pckrTo.date(new Date('@DateTime.Now.ToShortDateString()'));
+
+        buildGraphs();
+    }
+
+    function buildGraphs() {
+        graphParameters.dateFrom = $('#dateFromVal').val();
+        graphParameters.dateTo = $('#dateToVal').val();
+
+        buildProjects();
+        buildActiveUsers();
+        buildVouchers();
+        buildSalesInvoice();
+    }
+
+    function buildActiveUsers() {
+        var loader = $('#u-loader').loading('uloader');
+        $('#activeUserGraphContainer').html('');
+        PostForm('/Graph/ActiveUsers', JSON.stringify(graphParameters), 'json', 50000, function (response) {
+            loader.hideLoading();
+            $('#activeUserGraphContainer').html(response);
+        });
+    }
+
+    function buildProjects() {
+        var loader = $('#p-loader').loading('ploader');
+        $('#projectsGraphContainer').html('');
+        PostForm('/Graph/NewProjects', JSON.stringify(graphParameters), 'json', 50000, function (response) {
+            loader.hideLoading();
+            $('#projectsGraphContainer').html(response);
+        });
+    }
+
+    function buildVouchers() {
+        var loader = $('#v-loader').loading('vloader');
+        $('#vouchersGraphContainer').html('');
+        PostForm('/Graph/Vouchers', JSON.stringify(graphParameters), 'json', 50000, function (response) {
+            loader.hideLoading();
+            $('#vouchersGraphContainer').html(response);
+        });
+    }
+
+    function buildSalesInvoice() {
+        var loader = $('#s-loader').loading('sloader');
+        $('#salesInvoiceGraphContainer').html('');
+        PostForm('/Graph/SalesInvoices', JSON.stringify(graphParameters), 'json', 50000, function (response) {
+            loader.hideLoading();
+            $('#salesInvoiceGraphContainer').html(response);
+        });
+    }
+</script>

@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JacaAccountingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AccountEntry">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="AccountEntryTypeID" Type="int" />
+  </EntityType>
+  <EntityType Name="AccountEntryType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="ParentID" Type="int" />
+  </EntityType>
+  <EntityType Name="ActionRoute">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Controller" Type="nvarchar" MaxLength="50" />
+    <Property Name="Action" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="250" />
+    <Property Name="Icon" Type="nvarchar" MaxLength="50" />
+    <Property Name="Order" Type="int" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Payee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="DateAdded" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="TIN" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="ContractAmount" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Report">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ButtonCommand" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ReportPermission">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="ReportID" Type="int" Nullable="false" />
+    <Property Name="Allowed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RolePermission">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="int" Nullable="false" />
+    <Property Name="ActionRouteID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SalesInvoice">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AddedByID" Type="int" Nullable="false" />
+    <Property Name="ProjectID" Type="int" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="Customer" Type="nvarchar" MaxLength="250" />
+    <Property Name="TIN" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="Business" Type="nvarchar" MaxLength="250" />
+    <Property Name="Terms" Type="nvarchar" MaxLength="250" />
+    <Property Name="PWDNo" Type="nvarchar" MaxLength="100" />
+    <Property Name="PWDSignature" Type="nvarchar" MaxLength="100" />
+    <Property Name="PercentCompletion" Type="int" Nullable="false" />
+    <Property Name="PWDDiscount" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="VatExemptSales" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ZeroRatedSales" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IsSubmitted" Type="bit" Nullable="false" />
+    <Property Name="DateSubmitted" Type="datetime" />
+    <Property Name="IsCollected" Type="bit" Nullable="false" />
+    <Property Name="DateCollected" Type="date" />
+    <Property Name="InvoiceNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Vatable" Type="bit" />
+    <Property Name="ORNo" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="SalesInvoiceEntry">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SalesInvoiceID" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+    <Property Name="Articles" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="UnitPrice" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="AddedbyID" Type="int" Nullable="false" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="ProjectID" Type="int" />
+    <Property Name="AccountEntryID" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="SystemLog">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Action" Type="nvarchar" MaxLength="50" />
+    <Property Name="Table" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Role" Type="int" Nullable="false" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="DateLastLogin" Type="datetime" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Voucher">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PayeeID" Type="int" Nullable="false" />
+    <Property Name="ProjectID" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="250" />
+    <Property Name="CheckNo" Type="nvarchar" MaxLength="150" />
+    <Property Name="CheckAmount" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="AddedByID" Type="int" Nullable="false" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="Submitted" Type="bit" Nullable="false" />
+    <Property Name="DateSubmitted" Type="datetime" />
+    <Property Name="CheckDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="VoucherEntry">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VoucherID" Type="int" Nullable="false" />
+    <Property Name="AccountEntryID" Type="int" Nullable="false" />
+    <Property Name="BankID" Type="int" />
+    <Property Name="Debit" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Credit" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="AddedByID" Type="int" Nullable="false" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="ProjectID" Type="int" />
+  </EntityType>
+  <Association Name="FK_AccountEntry_AccountEntryType">
+    <End Role="AccountEntryType" Type="Self.AccountEntryType" Multiplicity="0..1" />
+    <End Role="AccountEntry" Type="Self.AccountEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountEntryType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountEntry">
+        <PropertyRef Name="AccountEntryTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AccountEntryType_AccountEntryType">
+    <End Role="AccountEntryType" Type="Self.AccountEntryType" Multiplicity="0..1" />
+    <End Role="AccountEntryType1" Type="Self.AccountEntryType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountEntryType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountEntryType1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ActionRoute_ActionRoute">
+    <End Role="ActionRoute" Type="Self.ActionRoute" Multiplicity="0..1" />
+    <End Role="ActionRoute1" Type="Self.ActionRoute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActionRoute">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ActionRoute1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReportPermission_Report">
+    <End Role="Report" Type="Self.Report" Multiplicity="1" />
+    <End Role="ReportPermission" Type="Self.ReportPermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Report">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReportPermission">
+        <PropertyRef Name="ReportID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RolePermission_ActionRoute">
+    <End Role="ActionRoute" Type="Self.ActionRoute" Multiplicity="1" />
+    <End Role="RolePermission" Type="Self.RolePermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActionRoute">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RolePermission">
+        <PropertyRef Name="ActionRouteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesInvoice_Project">
+    <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+    <End Role="SalesInvoice" Type="Self.SalesInvoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SalesInvoice">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesInvoice_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="SalesInvoice" Type="Self.SalesInvoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SalesInvoice">
+        <PropertyRef Name="AddedByID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesInvoiceEntry_AccountEntry">
+    <End Role="AccountEntry" Type="Self.AccountEntry" Multiplicity="0..1" />
+    <End Role="SalesInvoiceEntry" Type="Self.SalesInvoiceEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountEntry">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SalesInvoiceEntry">
+        <PropertyRef Name="AccountEntryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesInvoiceEntry_Project">
+    <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+    <End Role="SalesInvoiceEntry" Type="Self.SalesInvoiceEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SalesInvoiceEntry">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesInvoiceEntry_SalesInvoice">
+    <End Role="SalesInvoice" Type="Self.SalesInvoice" Multiplicity="1" />
+    <End Role="SalesInvoiceEntry" Type="Self.SalesInvoiceEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesInvoice">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SalesInvoiceEntry">
+        <PropertyRef Name="SalesInvoiceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SalesInvoiceEntry_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="SalesInvoiceEntry" Type="Self.SalesInvoiceEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SalesInvoiceEntry">
+        <PropertyRef Name="AddedbyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SystemLog_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="SystemLog" Type="Self.SystemLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SystemLog">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Voucher_Payee">
+    <End Role="Payee" Type="Self.Payee" Multiplicity="1" />
+    <End Role="Voucher" Type="Self.Voucher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Payee">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Voucher">
+        <PropertyRef Name="PayeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Voucher_Project">
+    <End Role="Project" Type="Self.Project" Multiplicity="1" />
+    <End Role="Voucher" Type="Self.Voucher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Voucher">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Voucher_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Voucher" Type="Self.Voucher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Voucher">
+        <PropertyRef Name="AddedByID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherEntry_AccountEntry">
+    <End Role="AccountEntry" Type="Self.AccountEntry" Multiplicity="1" />
+    <End Role="VoucherEntry" Type="Self.VoucherEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountEntry">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="VoucherEntry">
+        <PropertyRef Name="AccountEntryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherEntry_Bank">
+    <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+    <End Role="VoucherEntry" Type="Self.VoucherEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="VoucherEntry">
+        <PropertyRef Name="BankID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherEntry_Project">
+    <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+    <End Role="VoucherEntry" Type="Self.VoucherEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="VoucherEntry">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherEntry_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="VoucherEntry" Type="Self.VoucherEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="VoucherEntry">
+        <PropertyRef Name="AddedByID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VoucherEntry_Voucher">
+    <End Role="Voucher" Type="Self.Voucher" Multiplicity="1" />
+    <End Role="VoucherEntry" Type="Self.VoucherEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Voucher">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="VoucherEntry">
+        <PropertyRef Name="VoucherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JacaAccountingModelStoreContainer">
+    <EntitySet Name="AccountEntry" EntityType="Self.AccountEntry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AccountEntryType" EntityType="Self.AccountEntryType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ActionRoute" EntityType="Self.ActionRoute" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payee" EntityType="Self.Payee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReportPermission" EntityType="Self.ReportPermission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RolePermission" EntityType="Self.RolePermission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesInvoice" EntityType="Self.SalesInvoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesInvoiceEntry" EntityType="Self.SalesInvoiceEntry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Voucher" EntityType="Self.Voucher" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VoucherEntry" EntityType="Self.VoucherEntry" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AccountEntry_AccountEntryType" Association="Self.FK_AccountEntry_AccountEntryType">
+      <End Role="AccountEntryType" EntitySet="AccountEntryType" />
+      <End Role="AccountEntry" EntitySet="AccountEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AccountEntryType_AccountEntryType" Association="Self.FK_AccountEntryType_AccountEntryType">
+      <End Role="AccountEntryType" EntitySet="AccountEntryType" />
+      <End Role="AccountEntryType1" EntitySet="AccountEntryType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ActionRoute_ActionRoute" Association="Self.FK_ActionRoute_ActionRoute">
+      <End Role="ActionRoute" EntitySet="ActionRoute" />
+      <End Role="ActionRoute1" EntitySet="ActionRoute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReportPermission_Report" Association="Self.FK_ReportPermission_Report">
+      <End Role="Report" EntitySet="Report" />
+      <End Role="ReportPermission" EntitySet="ReportPermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RolePermission_ActionRoute" Association="Self.FK_RolePermission_ActionRoute">
+      <End Role="ActionRoute" EntitySet="ActionRoute" />
+      <End Role="RolePermission" EntitySet="RolePermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesInvoice_Project" Association="Self.FK_SalesInvoice_Project">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="SalesInvoice" EntitySet="SalesInvoice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesInvoice_User" Association="Self.FK_SalesInvoice_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="SalesInvoice" EntitySet="SalesInvoice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesInvoiceEntry_AccountEntry" Association="Self.FK_SalesInvoiceEntry_AccountEntry">
+      <End Role="AccountEntry" EntitySet="AccountEntry" />
+      <End Role="SalesInvoiceEntry" EntitySet="SalesInvoiceEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesInvoiceEntry_Project" Association="Self.FK_SalesInvoiceEntry_Project">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="SalesInvoiceEntry" EntitySet="SalesInvoiceEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesInvoiceEntry_SalesInvoice" Association="Self.FK_SalesInvoiceEntry_SalesInvoice">
+      <End Role="SalesInvoice" EntitySet="SalesInvoice" />
+      <End Role="SalesInvoiceEntry" EntitySet="SalesInvoiceEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SalesInvoiceEntry_User" Association="Self.FK_SalesInvoiceEntry_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="SalesInvoiceEntry" EntitySet="SalesInvoiceEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SystemLog_User" Association="Self.FK_SystemLog_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="SystemLog" EntitySet="SystemLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Voucher_Payee" Association="Self.FK_Voucher_Payee">
+      <End Role="Payee" EntitySet="Payee" />
+      <End Role="Voucher" EntitySet="Voucher" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Voucher_Project" Association="Self.FK_Voucher_Project">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="Voucher" EntitySet="Voucher" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Voucher_User" Association="Self.FK_Voucher_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Voucher" EntitySet="Voucher" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherEntry_AccountEntry" Association="Self.FK_VoucherEntry_AccountEntry">
+      <End Role="AccountEntry" EntitySet="AccountEntry" />
+      <End Role="VoucherEntry" EntitySet="VoucherEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherEntry_Bank" Association="Self.FK_VoucherEntry_Bank">
+      <End Role="Bank" EntitySet="Bank" />
+      <End Role="VoucherEntry" EntitySet="VoucherEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherEntry_Project" Association="Self.FK_VoucherEntry_Project">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="VoucherEntry" EntitySet="VoucherEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherEntry_User" Association="Self.FK_VoucherEntry_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="VoucherEntry" EntitySet="VoucherEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VoucherEntry_Voucher" Association="Self.FK_VoucherEntry_Voucher">
+      <End Role="Voucher" EntitySet="Voucher" />
+      <End Role="VoucherEntry" EntitySet="VoucherEntry" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,34 @@
+﻿@model ExecDashboard.Models.LineGraphModel
+
+<div id="projectChartWrapper">
+    <br />
+    <canvas id="canvasProjects" height="300"></canvas>
+</div>
+
+<script src="~/Scripts/ChartNew.js"></script>
+<script>
+
+    var userChartData = JSON.parse('@Html.Raw(Json.Encode(Model))');
+
+    $(function () {
+        buildGraph();
+    });
+
+    function buildGraph() {
+        var _width = $('#projectsGraphContainer').width();
+        $('#canvasProjects').attr('width', _width);
+
+        var ctx = document.getElementById("canvasProjects").getContext("2d");
+	    var chart = new Chart(ctx).Line(userChartData, {
+		    scaleOverride: true,
+		    scaleSteps: 4,
+            scaleStepWidth: parseInt('@ViewBag.Max') / 4,
+	        scaleStartValue: 0,
+	        pointDot: false,
+	        showTooltips: false,
+	        scaleXGridLinesStep: 0
+        });
+    };
+</script>
+
+
